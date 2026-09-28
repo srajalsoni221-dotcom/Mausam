@@ -10,4 +10,9 @@ public class TestController {
     public String home() {
         return "Mausam Backend is running!";
     }
+
+    @GetMapping("/db-test")
+    public String databaseTest() {
+        return "MongoDB connection is working!";
+    }
 }
