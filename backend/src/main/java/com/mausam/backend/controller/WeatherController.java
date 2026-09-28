@@ -1,9 +1,10 @@
 package com.mausam.backend.controller;
 
-import com.mausam.backend.service.WeatherService;
+import com.mausam.backend.weather.WeatherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.mausam.backend.weather.WeatherResponse;
 
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weather")
-    public Map<String, Object> getWeather(
+    public WeatherResponse getWeather(
             @RequestParam double latitude,
             @RequestParam double longitude) {
 
