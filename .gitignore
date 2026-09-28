@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables / API keys
+.env
+.env.*
+!.env.example
+
+# Python cache / test files
+.pytest_cache/
+.mypy_cache/
+
+# VS Code
+.vscode/
+
+# Java / Maven
+target/
+*.class
+
+# IntelliJ / Eclipse
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
