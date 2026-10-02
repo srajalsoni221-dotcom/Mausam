@@ -16,7 +16,7 @@ public class WeatherService {
         String url = "https://api.open-meteo.com/v1/forecast"
                 + "?latitude=" + latitude
                 + "&longitude=" + longitude
-                + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation"
+                + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weather_code"
                 + "&timezone=auto"
                 + "&daily=precipitation_sum";
 
@@ -38,13 +38,14 @@ public class WeatherService {
                 ((Number) precipitationList.get(0)).doubleValue();
 
         return new WeatherResponse(
-                ((Number) current.get("temperature_2m")).doubleValue(),
-                ((Number) current.get("apparent_temperature")).doubleValue(),
-                ((Number) current.get("relative_humidity_2m")).intValue(),
-                ((Number) current.get("wind_speed_10m")).doubleValue(),
-                ((Number) current.get("precipitation")).doubleValue(),
-                dailyPrecipitation
-        );
+        ((Number) current.get("temperature_2m")).doubleValue(),
+        ((Number) current.get("apparent_temperature")).doubleValue(),
+        ((Number) current.get("relative_humidity_2m")).intValue(),
+        ((Number) current.get("wind_speed_10m")).doubleValue(),
+        ((Number) current.get("precipitation")).doubleValue(),
+        dailyPrecipitation,
+        ((Number) current.get("weather_code")).intValue()
+);
     }
     public ForecastResponse getForecast(double latitude, double longitude) {
 

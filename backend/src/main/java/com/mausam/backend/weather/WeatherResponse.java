@@ -12,7 +12,9 @@ public record WeatherResponse(
 
         double precipitation,
 
-        double dailyPrecipitation
+        double dailyPrecipitation,
+
+        int weatherCode
 
 ) {
 
