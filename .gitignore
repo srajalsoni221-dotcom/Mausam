@@ -1,36 +1,43 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# Python virtual environments
-.venv/
-venv/
-env/
+# dependencies
+node_modules/
 
-# Environment variables / API keys
-.env
-.env.*
-!.env.example
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
 
-# Python cache / test files
-.pytest_cache/
-.mypy_cache/
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
 
-# VS Code
-.vscode/
+# Metro
+.metro-health-check*
 
-# Java / Maven
-target/
-*.class
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
 
-# IntelliJ / Eclipse
-.idea/
-*.iml
-.classpath
-.project
-.settings/
-
-# OS files
+# macOS
 .DS_Store
-Thumbs.db
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+example
+
+# generated native folders
+/ios
+/android
