@@ -15,14 +15,12 @@ public class RecommendationController {
 
     @GetMapping("/recommendation")
     public String getRecommendation(
-            @RequestParam double temperature,
-            @RequestParam int aqi,
-            @RequestParam double uvIndex) {
+            @RequestParam double latitude,
+            @RequestParam double longitude) {
 
         return recommendationService.getRecommendation(
-                temperature,
-                aqi,
-                uvIndex
+                latitude,
+                longitude
         );
     }
 }

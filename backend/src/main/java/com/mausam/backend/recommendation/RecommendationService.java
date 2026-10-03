@@ -1,14 +1,40 @@
 package com.mausam.backend.recommendation;
 
+import com.mausam.backend.weather.WeatherResponse;
+import com.mausam.backend.weather.WeatherService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RecommendationService {
 
+    private final WeatherService weatherService;
+    private final AqiService aqiService;
+    private final UvService uvService;
+
+    public RecommendationService(
+            WeatherService weatherService,
+            AqiService aqiService,
+            UvService uvService) {
+
+        this.weatherService = weatherService;
+        this.aqiService = aqiService;
+        this.uvService = uvService;
+    }
+
     public String getRecommendation(
-            double temperature,
-            int aqi,
-            double uvIndex) {
+            double latitude,
+            double longitude) {
+
+        WeatherResponse weather =
+                weatherService.getWeather(latitude, longitude);
+
+        int aqi =
+                aqiService.getAqi(latitude, longitude);
+
+        double uvIndex =
+                uvService.getUvIndex(latitude, longitude);
+
+        double temperature = weather.temperature();
 
         if (aqi > 150) {
             return "Air quality is poor. Avoid outdoor activities.";
