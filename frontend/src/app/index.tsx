@@ -10,6 +10,7 @@ import {
   TextInput,
   Text,
   View,
+  Image
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -385,23 +386,23 @@ export default function HomeScreen() {
                 data.daily.weather_code[index],
               maxTemp: Math.round(
                 data.daily.temperature_2m_max[
-                  index
+                index
                 ]
               ),
               minTemp: Math.round(
                 data.daily.temperature_2m_min[
-                  index
+                index
                 ]
               ),
               rainChance: Math.round(
                 data.daily
                   .precipitation_probability_max?.[
-                  index
+                index
                 ] ?? 0
               ),
               uvIndex: Math.round(
                 data.daily.uv_index_max?.[
-                  index
+                index
                 ] ?? 0
               ),
             })
@@ -563,7 +564,7 @@ export default function HomeScreen() {
   const isNight = weather
     ? !weather.isDay
     : currentTime.getHours() >= 18 ||
-      currentTime.getHours() < 6;
+    currentTime.getHours() < 6;
 
   /* TIME */
 
@@ -766,15 +767,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.screen}>
-      {/* BACKGROUND */}
-
-      <View
-        style={[
-          styles.skyBackground,
-          isNight
-            ? styles.nightBackground
-            : styles.dayBackground,
-        ]}
+      {/* BACKGROUND IMAGE */}
+      <Image
+        source={require('D:/minorrrrr/Mausam/frontend/assets/images/background.jpg')}
+        style={styles.backgroundImage}
+        blurRadius={1}
       />
 
       <SafeAreaView
@@ -945,50 +942,20 @@ export default function HomeScreen() {
                   ? 'Getting weather...'
                   : weather
                     ? getWeatherCondition(
-                        weather.weatherCode
-                      )
+                      weather.weatherCode
+                    )
                     : 'Weather unavailable'}
               </Text>
 
               {/* SUN */}
 
-              <View
-                style={styles.sunArea}
-              >
-                <View
-                  style={styles.sunPath}
+              {/* CUSTOM SUN ANIMATION / IMAGE */}
+              <View style={styles.sunArea}>
+                <Image
+                  source={require('D:/minorrrrr/Mausam/frontend/assets/images/sun.png')} // Agar png hai toh .png likh dena
+                  style={{ width: 220, height: 220 }} // Size apne hisaab se adjust kar lena
+                  resizeMode="contain"
                 />
-
-                {isNight ? (
-                  <Text
-                    style={styles.moon}
-                  >
-                    🌙
-                  </Text>
-                ) : (
-                  <Text
-                    style={[
-                      styles.sun,
-                      {
-                        position:
-                          'absolute',
-                        left:
-                          getSunProgress() *
-                            250 -
-                          31,
-                        top:
-                          75 -
-                          Math.sin(
-                            getSunProgress() *
-                              Math.PI
-                          ) *
-                            65,
-                      },
-                    ]}
-                  >
-                    ☀️
-                  </Text>
-                )}
               </View>
 
               {/* SUN TIMES */}
@@ -1093,8 +1060,8 @@ export default function HomeScreen() {
                 status={
                   weather
                     ? getWindDirection(
-                        weather.windDirection
-                      )
+                      weather.windDirection
+                    )
                     : 'Loading'
                 }
               />
@@ -1127,8 +1094,8 @@ export default function HomeScreen() {
                 status={
                   weather
                     ? getAQIStatus(
-                        weather.aqi
-                      )
+                      weather.aqi
+                    )
                     : 'Loading'
                 }
               />
@@ -1206,13 +1173,13 @@ export default function HomeScreen() {
                         index === 0
                           ? 'Now'
                           : new Date(
-                                item.time
-                              ).toLocaleTimeString(
-                                [],
-                                {
-                                  hour: 'numeric',
-                                }
-                              )
+                            item.time
+                          ).toLocaleTimeString(
+                            [],
+                            {
+                              hour: 'numeric',
+                            }
+                          )
                       }
                       emoji={getWeatherEmoji(
                         item.weatherCode,
@@ -1834,7 +1801,7 @@ function Forecast({
       style={[
         styles.forecastItem,
         active &&
-          styles.activeForecast,
+        styles.activeForecast,
       ]}
     >
       <Text
@@ -1892,7 +1859,7 @@ function MenuItem({
       style={[
         styles.menuItem,
         active &&
-          styles.activeMenuItem,
+        styles.activeMenuItem,
       ]}
       onPress={onPress}
     >
@@ -1906,7 +1873,7 @@ function MenuItem({
         style={[
           styles.menuItemText,
           active &&
-            styles.activeMenuText,
+          styles.activeMenuText,
         ]}
       >
         {title}
@@ -2431,6 +2398,17 @@ function FAQ({ title, text }: { title: string; text: string }) {
 /* STYLES */
 
 const styles = StyleSheet.create({
+
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+  },
+
   screen: {
     flex: 1,
     backgroundColor: '#DCEBFF',
@@ -3151,16 +3129,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
- mapGrid: {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  opacity: 0.45,
-  borderWidth: 1,
-  borderColor: 'rgba(70,100,80,0.18)',
-},
+  mapGrid: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.45,
+    borderWidth: 1,
+    borderColor: 'rgba(70,100,80,0.18)',
+  },
 
   mapCloud: {
     position: 'absolute',
