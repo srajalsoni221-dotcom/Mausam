@@ -13,40 +13,61 @@ public class WeatherService {
 
     public WeatherResponse getWeather(double latitude, double longitude) {
 
-        String url = "https://api.open-meteo.com/v1/forecast"
-                + "?latitude=" + latitude
-                + "&longitude=" + longitude
-                + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weather_code"
-                + "&timezone=auto"
-                + "&daily=precipitation_sum";
+    String url = "https://api.open-meteo.com/v1/forecast"
+            + "?latitude=" + latitude
+            + "&longitude=" + longitude
+            + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weather_code"
+            + "&timezone=auto"
+            + "&daily=precipitation_sum";
 
-        Map<String, Object> response = restClient.get()
-                .uri(url)
-                .retrieve()
-                .body(Map.class);
+    Map<String, Object> response = null;
 
-        Map<String, Object> current =
-                (Map<String, Object>) response.get("current");
+    for (int attempt = 1; attempt <= 3; attempt++) {
+        try {
+            response = restClient.get()
+                    .uri(url)
+                    .retrieve()
+                    .body(Map.class);
 
-        Map<String, Object> daily =
-                (Map<String, Object>) response.get("daily");
+            break;
 
-        List<?> precipitationList =
-                (List<?>) daily.get("precipitation_sum");
+        } catch (org.springframework.web.client.HttpServerErrorException e) {
 
-        double dailyPrecipitation =
-                ((Number) precipitationList.get(0)).doubleValue();
+            if (attempt == 3) {
+                throw e;
+            }
 
-        return new WeatherResponse(
-        ((Number) current.get("temperature_2m")).doubleValue(),
-        ((Number) current.get("apparent_temperature")).doubleValue(),
-        ((Number) current.get("relative_humidity_2m")).intValue(),
-        ((Number) current.get("wind_speed_10m")).doubleValue(),
-        ((Number) current.get("precipitation")).doubleValue(),
-        dailyPrecipitation,
-        ((Number) current.get("weather_code")).intValue()
-);
+            try {
+                Thread.sleep(attempt * 2000L);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Weather request interrupted", ex);
+            }
+        }
     }
+
+    Map<String, Object> current =
+            (Map<String, Object>) response.get("current");
+
+    Map<String, Object> daily =
+            (Map<String, Object>) response.get("daily");
+
+    List<?> precipitationList =
+            (List<?>) daily.get("precipitation_sum");
+
+    double dailyPrecipitation =
+            ((Number) precipitationList.get(0)).doubleValue();
+
+    return new WeatherResponse(
+            ((Number) current.get("temperature_2m")).doubleValue(),
+            ((Number) current.get("apparent_temperature")).doubleValue(),
+            ((Number) current.get("relative_humidity_2m")).intValue(),
+            ((Number) current.get("wind_speed_10m")).doubleValue(),
+            ((Number) current.get("precipitation")).doubleValue(),
+            dailyPrecipitation,
+            ((Number) current.get("weather_code")).intValue()
+    );
+}
     public ForecastResponse getForecast(double latitude, double longitude) {
 
     String url = "https://api.open-meteo.com/v1/forecast"
